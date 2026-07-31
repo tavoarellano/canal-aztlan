@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canal Aztlán · Radio</title>
+<meta name="description" content="Radio independiente desde México. Lectura de libros, cultura y voz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --tinta:#12100e;
+    --papel:#e9e2d0;
+    --papel-hondo:#ded4bd;
+    --ocre:#b5431f;
+    --ocre-vivo:#d65a2c;
+    --verde:#3a4a3f;
+    --sombra:rgba(18,16,14,.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--papel);
+    color:var(--tinta);
+    font-family:'Fraunces',Georgia,serif;
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    background-image:
+      radial-gradient(circle at 15% 12%, rgba(181,67,31,.06), transparent 42%),
+      radial-gradient(circle at 85% 88%, rgba(58,74,63,.07), transparent 45%);
+  }
+  ::selection{background:var(--ocre);color:var(--papel)}
+
+  .marco{
+    flex:1;
+    width:100%;
+    max-width:860px;
+    margin:0 auto;
+    padding:clamp(24px,5vw,56px) clamp(20px,5vw,44px);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Encabezado */
+  .cabecera{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    border-bottom:1.5px solid var(--tinta);
+    padding-bottom:14px;
+  }
+  .cabecera .lugar{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    opacity:.7;
+  }
+  .frecuencia{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    opacity:.7;
+  }
+
+  /* Bloque central */
+  .escena{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(30px,7vw,64px) 0;
+  }
+  .rotulo{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:12px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--ocre);
+    margin-bottom:18px;
+  }
+  h1{
+    font-weight:900;
+    font-size:clamp(58px,17vw,150px);
+    line-height:.86;
+    letter-spacing:-.02em;
+    font-optical-sizing:auto;
+  }
+  h1 .az{display:block}
+  h1 .tlan{display:block;font-style:italic;font-weight:400;color:var(--ocre)}
+  .lema{
+    margin-top:26px;
+    max-width:34ch;
+    font-size:clamp(17px,2.4vw,21px);
+    line-height:1.45;
+    color:#3a352d;
+  }
+
+  /* Consola del reproductor */
+  .consola{
+    margin-top:clamp(30px,5vw,44px);
+    border:1.5px solid var(--tinta);
+    background:var(--papel-hondo);
+    box-shadow:6px 6px 0 var(--tinta);
+    display:flex;
+    align-items:center;
+    gap:clamp(16px,4vw,26px);
+    padding:clamp(16px,4vw,22px) clamp(18px,4vw,26px);
+  }
+  .btn-play{
+    flex:none;
+    width:66px;height:66px;
+    border-radius:50%;
+    border:1.5px solid var(--tinta);
+    background:var(--ocre);
+    color:var(--papel);
+    cursor:pointer;
+    display:grid;place-items:center;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn-play:hover{background:var(--ocre-vivo);transform:scale(1.05)}
+  .btn-play:active{transform:scale(.96)}
+  .btn-play:focus-visible{outline:3px solid var(--verde);outline-offset:3px}
+  .btn-play svg{width:24px;height:24px;display:block}
+  .btn-play .ico-pausa{display:none}
+  .btn-play.sonando .ico-play{display:none}
+  .btn-play.sonando .ico-pausa{display:block}
+
+  .info{flex:1;min-width:0}
+  .info .estado{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;
+    color:var(--verde);
+    margin-bottom:6px;
+  }
+  .punto{
+    width:9px;height:9px;border-radius:50%;
+    background:#999;flex:none;
+  }
+  .sonando-txt .punto{background:var(--ocre);animation:latir 1.4s ease-in-out infinite}
+  @keyframes latir{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+  .info .ahora{
+    font-size:clamp(19px,3vw,25px);
+    font-weight:600;
+    line-height:1.15;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  .volumen{
+    flex:none;display:flex;align-items:center;gap:10px;
+  }
+  .volumen svg{width:18px;height:18px;opacity:.6;flex:none}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;
+    width:92px;height:2px;background:var(--tinta);cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--ocre);border:1.5px solid var(--tinta);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:16px;height:16px;border-radius:50%;
+    background:var(--ocre);border:1.5px solid var(--tinta);
+  }
+
+  /* Programación */
+  .parrilla{
+    margin-top:clamp(34px,6vw,52px);
+    border-top:1.5px solid var(--tinta);
+    padding-top:20px;
+  }
+  .parrilla h2{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    opacity:.6;font-weight:500;margin-bottom:16px;
+  }
+  .fila{
+    display:flex;gap:18px;align-items:baseline;
+    padding:11px 0;border-bottom:1px solid rgba(18,16,14,.13);
+  }
+  .fila .hora{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:13px;color:var(--ocre);flex:none;width:66px;
+  }
+  .fila .prog{font-size:17px;font-weight:600}
+  .fila .desc{font-size:14px;color:#5a5348;margin-top:2px}
+
+  footer{
+    text-align:center;padding:22px;
+    font-family:'Spline Sans Mono',monospace;
+    font-size:11px;letter-spacing:.14em;opacity:.5;
+    border-top:1px solid rgba(18,16,14,.15);
+  }
+
+  @media (max-width:560px){
+    .consola{flex-wrap:wrap}
+    .volumen{width:100%;justify-content:flex-start;padding-left:82px}
+    .info .ahora{white-space:normal}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+  <div class="marco">
+    <header class="cabecera">
+      <span class="lugar">Desde Aguascalientes · México</span>
+      <span class="frecuencia">EN VIVO / WEB</span>
+    </header>
+
+    <main class="escena">
+      <p class="rotulo">Radio independiente</p>
+      <h1><span class="az">Canal</span><span class="tlan">Aztlán</span></h1>
+      <p class="lema">Una voz que acompaña. Lectura de libros, cultura y palabra para quien quiera escuchar.</p>
+
+      <section class="consola" aria-label="Reproductor de radio">
+        <button id="play" class="btn-play" aria-label="Reproducir la radio">
+          <svg class="ico-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="ico-pausa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <div class="info">
+          <div class="estado" id="estado"><span class="punto"></span><span id="estado-txt">Fuera del aire</span></div>
+          <div class="ahora" id="ahora">Presiona play para escuchar</div>
+        </div>
+        <div class="volumen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+          <input id="vol" type="range" min="0" max="100" value="80" aria-label="Volumen">
+        </div>
+      </section>
+    </main>
+
+    <section class="parrilla">
+      <h2>Programación</h2>
+      <div class="fila">
+        <span class="hora">10:00</span>
+        <div><div class="prog">Café con letras</div><div class="desc">Poesía y relatos breves para empezar el día</div></div>
+      </div>
+      <div class="fila">
+        <span class="hora">16:00</span>
+        <div><div class="prog">Voces de México</div><div class="desc">Cultura, historia y conversación</div></div>
+      </div>
+      <div class="fila">
+        <span class="hora">21:40</span>
+        <div><div class="prog">La hora del libro</div><div class="desc">Lectura de un capítulo en voz alta, como en los cuarenta</div></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>Canal Aztlán · Transmitiendo desde México</footer>
+
+  <audio id="audio" preload="none" crossorigin="anonymous"></audio>
+
+  <script>
+    // === CONFIGURACIÓN ===
+    // Reemplaza esta URL por la de tu servidor de Railway + /stream
+    // Ejemplo: "https://canal-aztlan.up.railway.app/stream"
+    const STREAM_URL = window.STREAM_URL || "/stream";
+
+    const audio   = document.getElementById('audio');
+    const play    = document.getElementById('play');
+    const estado  = document.getElementById('estado');
+    const estadoT = document.getElementById('estado-txt');
+    const ahora   = document.getElementById('ahora');
+    const vol     = document.getElementById('vol');
+
+    audio.volume = vol.value / 100;
+    let sonando = false;
+
+    function ponerEstado(txt, activo){
+      estadoT.textContent = txt;
+      estado.classList.toggle('sonando-txt', !!activo);
+    }
+
+    play.addEventListener('click', () => {
+      if (!sonando){
+        audio.src = STREAM_URL + "?_=" + Date.now(); // evita caché en directo
+        ponerEstado('Conectando…', false);
+        ahora.textContent = 'Buscando la señal…';
+        audio.play().catch(() => {
+          ponerEstado('Sin señal', false);
+          ahora.textContent = 'La transmisión no está activa ahora mismo';
+        });
+      } else {
+        audio.pause();
+        audio.src = '';
+      }
+    });
+
+    audio.addEventListener('playing', () => {
+      sonando = true;
+      play.classList.add('sonando');
+      play.setAttribute('aria-label','Pausar la radio');
+      ponerEstado('Al aire', true);
+      ahora.textContent = 'Canal Aztlán en vivo';
+    });
+    audio.addEventListener('pause', () => {
+      sonando = false;
+      play.classList.remove('sonando');
+      play.setAttribute('aria-label','Reproducir la radio');
+      ponerEstado('En pausa', false);
+      ahora.textContent = 'Presiona play para escuchar';
+    });
+    audio.addEventListener('error', () => {
+      if (audio.src){
+        sonando = false;
+        play.classList.remove('sonando');
+        ponerEstado('Sin señal', false);
+        ahora.textContent = 'La transmisión no está activa ahora mismo';
+      }
+    });
+
+    vol.addEventListener('input', () => { audio.volume = vol.value / 100; });
+  </script>
+</body>
+</html>
