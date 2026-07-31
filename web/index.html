@@ -24,6 +24,7 @@
   .kicker{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;
           letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-variant-numeric:tabular-nums}
   .dot{width:5px;height:5px;border-radius:50%;background:var(--jade);animation:pulse 2.6s ease-in-out infinite}
+  .dot.off{background:var(--line-rail);animation:none}
   .rule{flex:1;height:1px;background:var(--line)}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
   @media (prefers-reduced-motion:reduce){.dot{animation:none}}
@@ -78,7 +79,7 @@
 
   <header>
     <div class="kicker">
-      <span class="dot"></span>
+      <span class="dot off" id="dot"></span>
       <span>Radio independiente</span>
       <span class="rule"></span>
       <span id="clock">00:00</span>
@@ -151,7 +152,9 @@
 // === CONFIGURACIÓN DEL STREAM ===
 // El punto de montaje de tu servidor Icecast en Railway.
 // "/stream" funciona porque la página se sirve desde el mismo servidor.
-const STREAM_URL = "/stream";
+// Para pruebas locales se puede apuntar a otro servidor: index.html?server=https://tu-dominio
+const BASE = new URLSearchParams(location.search).get("server") || "";
+const STREAM_URL = BASE + "/stream";
 
 const SHOWS = [
   { time:'10:00', title:'Café con letras',  note:'Poesía y relatos breves para empezar el día', start:600 },
@@ -254,6 +257,34 @@ audio.addEventListener("error", ()=>{
 audio.addEventListener("stalled", ()=>{ if (playing){ onAir=false; renderPlayer(); staticStart(); }});
 audio.addEventListener("waiting", ()=>{ if (playing){ onAir=false; renderPlayer(); staticStart(); }});
 
+// ---------- Estado del servidor (status-json.xsl de Icecast) ----------
+let srcAvailable = false;   // hay alguien transmitiendo al servidor
+let listeners = 0;          // oyentes conectados al montaje
+let songTitle = "";         // metadata que manda BUTT (artista — título)
+
+async function pollStatus(){
+  try{
+    const res = await fetch(BASE + "/status-json.xsl", {cache:"no-store"});
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    const s = data.icestats && data.icestats.source;
+    const mounts = s ? (Array.isArray(s) ? s : [s]) : [];
+    const mount = mounts.find(m => m.listenurl && m.listenurl.endsWith("/stream")) || mounts[0];
+    srcAvailable = !!mount;
+    listeners = (mount && mount.listeners) || 0;
+    songTitle = mount ? [mount.artist, mount.title].filter(Boolean).join(" — ") : "";
+  }catch(e){
+    srcAvailable = false; listeners = 0; songTitle = "";
+  }
+  // el usuario ya pulsó play, estaba en estática y apareció la señal: reintentar
+  if (playing && !onAir && srcAvailable && (audio.paused || audio.error)){
+    audio.src = STREAM_URL + "?_=" + Date.now();
+    audio.play().catch(()=>{});
+  }
+  $('dot').classList.toggle('off', !srcAvailable);
+  renderPlayer();
+}
+
 // ---------- Programación y estado ----------
 function currentIndex(){
   const d = new Date(), m = d.getHours()*60 + d.getMinutes();
@@ -273,9 +304,16 @@ function renderShows(){
 function renderPlayer(customTitle){
   const cur = currentIndex();
   let label, title;
-  if (!playing){ label = "En pausa"; title = "Presiona play para escuchar"; }
-  else if (onAir){ label = "Al aire"; title = SHOWS[cur].title; }
+  if (!playing){
+    if (srcAvailable){ label = "Al aire ahora"; title = songTitle || SHOWS[cur].title; }
+    else { label = "En pausa"; title = "Presiona play para escuchar"; }
+  }
+  else if (onAir){ label = "Al aire"; title = songTitle || SHOWS[cur].title; }
+  else if (srcAvailable){ label = "Conectando"; title = customTitle || "Buscando señal…"; }
   else { label = "Sin señal"; title = customTitle || "Sintonizando… no hay transmisión ahora"; }
+  if (srcAvailable && listeners > 0){
+    label += " · " + listeners + (listeners === 1 ? " oyente" : " oyentes");
+  }
 
   $('status').textContent = label;
   $('now').textContent = title;
@@ -310,6 +348,8 @@ $('rail').addEventListener('keydown', e => {
 
 tick(); renderVolume();
 setInterval(tick, 20000);
+pollStatus();
+setInterval(pollStatus, 10000);
 </script>
 </body>
 </html>
