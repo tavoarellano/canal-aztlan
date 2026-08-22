@@ -1,4 +1,5 @@
-*.log
-.DS_Store
-node_modules/
-.env
+# Secretos locales — NUNCA subir
+clave.txt
+
+# Grabaciones locales
+*.mp3
