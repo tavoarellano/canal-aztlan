@@ -28,7 +28,8 @@ while ($true) {
     Write-Host " [3] Escuchar la grabacion"
     Write-Host " [4] Salir al aire (una vez)"
     Write-Host " [5] Salir al aire en bucle (se repite hasta que pulses q)"
-    Write-Host " [6] Abrir la pagina de la radio"
+    Write-Host " [6] HABLAR EN VIVO al aire (microfono directo, q para cortar)"
+    Write-Host " [7] Abrir la pagina de la radio"
     Write-Host " [0] Salir"
     $op = Read-Host "Elige una opcion"
 
@@ -58,6 +59,12 @@ while ($true) {
         Write-Host "Transmision terminada. La radio quedo en silencio." -ForegroundColor Green
     }
     elseif ($op -eq "6") {
+        $clave = Get-Clave
+        Write-Host "EN VIVO: todo lo que digas esta saliendo al aire. Pulsa q para cortar." -ForegroundColor Red
+        & $ffmpeg -hide_banner -loglevel warning -stats -f dshow -i audio="$microfono" -c:a libmp3lame -b:a 128k -content_type audio/mpeg -f mp3 "icecast://source:${clave}@$servidor/stream"
+        Write-Host "Fuera del aire." -ForegroundColor Green
+    }
+    elseif ($op -eq "7") {
         Start-Process $pagina
     }
     elseif ($op -eq "0") {
