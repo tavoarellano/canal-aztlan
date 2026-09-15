@@ -14,8 +14,15 @@ $servidor  = "altaria.proxy.rlwy.net:18665"
 $pagina    = "https://canal-aztlan-production.up.railway.app"
 
 function Get-Clave {
-    if (Test-Path $claveTxt) { return (Get-Content $claveTxt -TotalCount 1).Trim() }
-    return Read-Host "Escribe tu SOURCE_PASSWORD (de Railway > Variables)"
+    if (Test-Path $claveTxt) {
+        $c = (Get-Content $claveTxt -TotalCount 1)
+        if ($c -and $c.Trim()) { return $c.Trim() }
+    }
+    while ($true) {
+        $c = Read-Host "Escribe tu SOURCE_PASSWORD (de Railway > Variables; clic derecho pega)"
+        if ($c -and $c.Trim()) { return $c.Trim() }
+        Write-Host "Quedo vacia. Escribela o pegala con clic derecho, y luego Enter." -ForegroundColor Red
+    }
 }
 
 while ($true) {
