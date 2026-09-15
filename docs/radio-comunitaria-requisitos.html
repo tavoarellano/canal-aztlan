@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radio comunitaria — Requisitos (CRT 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:wght@600;700&display=swap">
+<style>
+  :root{
+    --paper:#EDE8DC; --ink:#1C1F1D; --ink-2:#2A2926; --ink-3:#56554E; --ink-4:#6B6A62;
+    --jade:#3E7D63; --jade-d:#2F6350; --jade-dd:#24513F;
+    --cochineal:#9C3B26; --line:#D6D0C1; --line-row:#E0DACB;
+    --serif:"Cormorant Garamond",Georgia,serif; --body:"Lora",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+       font-size:16px;line-height:1.65;padding:64px 24px 72px;display:flex;justify-content:center}
+  ::selection{background:rgba(62,125,99,.18)}
+  a{color:var(--jade-d)} a:hover{color:var(--cochineal)}
+  .wrap{width:100%;max-width:720px}
+
+  .kicker{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;
+          letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px}
+  .kicker .rule{flex:1;height:1px;background:var(--line)}
+  h1{font-family:var(--serif);font-weight:700;font-size:40px;line-height:1.1;margin:0 0 10px;color:var(--jade-dd)}
+  .sub{font-size:15px;color:var(--ink-3);margin:0 0 36px;font-style:italic}
+
+  h2{font-family:var(--serif);font-weight:700;font-size:26px;margin:44px 0 12px;color:var(--jade-d);
+     border-top:1px solid var(--ink);padding-top:22px}
+  h2 .num{color:var(--cochineal);margin-right:8px}
+  p{margin:0 0 14px;text-wrap:pretty}
+  strong{color:var(--ink-2)}
+  em{color:var(--jade-dd)}
+
+  .aviso{border:1px solid var(--jade);border-left:4px solid var(--jade);border-radius:4px;
+         padding:16px 18px;margin:0 0 8px;background:rgba(62,125,99,.06);font-size:15px}
+  .aviso strong{color:var(--jade-dd)}
+  .ojo{border-left:4px solid var(--cochineal);padding:2px 0 2px 16px;margin:18px 0;font-size:15px;color:var(--ink-2)}
+
+  ol.req{counter-reset:req;list-style:none;margin:0;padding:0}
+  ol.req>li{counter-increment:req;position:relative;padding:16px 2px 16px 56px;border-top:1px solid var(--line-row)}
+  ol.req>li::before{content:counter(req);position:absolute;left:2px;top:14px;width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;
+      font-size:20px;color:var(--paper);background:var(--jade);border-radius:3px;transform:rotate(-1deg)}
+  ol.req>li:nth-child(even)::before{background:var(--jade-dd);transform:rotate(1deg)}
+  ol.req .t{font-weight:700;color:var(--jade-dd)}
+
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin-bottom:8px}
+
+  table{width:100%;border-collapse:collapse;font-size:15px;margin:0 0 14px}
+  th{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);
+     text-align:left;padding:8px 10px;border-bottom:1px solid var(--ink)}
+  td{padding:10px;border-bottom:1px solid var(--line-row);vertical-align:top}
+
+  .zero{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--cochineal)}
+  footer{margin-top:52px;border-top:1px solid var(--ink);padding-top:12px;font-size:11px;font-weight:700;
+         letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  @media (max-width:640px){ body{padding:40px 16px 56px} h1{font-size:31px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker"><span>Radio Aztlán · Documento de ruta</span><span class="rule"></span><span>CRT · 2026</span></div>
+  <h1>Radio comunitaria por FM:<br>los requisitos</h1>
+  <p class="sub">Concesión de uso social comunitaria — verificado en septiembre de 2026 contra los
+  Lineamientos de la CRT (Comisión Reguladora de Telecomunicaciones, la que sustituyó al IFT).</p>
+
+  <div class="aviso">
+    <strong>Buen momento:</strong> en 2026 entraron reglas nuevas — los requisitos bajaron de 13 a
+    <strong>8</strong>, se eliminaron las barreras económicas (ya no piden plan de negocios ni capital)
+    y el trámite es <strong>gratuito</strong>.
+  </div>
+  <div class="ojo">
+    <strong>Ojo:</strong> esto aplica solo para transmitir por <strong>FM/AM con antena</strong>.
+    La radio por internet — lo que ya es Radio Aztlán — <em>no necesita ningún permiso</em>.
+  </div>
+
+  <h2><span class="num">§1</span>Quién puede pedirla</h2>
+  <p>Una <strong>asociación civil (A.C.) sin fines de lucro</strong>, mexicana. Una persona sola no puede:
+  el primer paso real es constituir la A.C. ante notario. La escritura debe cumplir tres cosas
+  (díselo al notario desde el principio):</p>
+  <ul>
+    <li>Nacionalidad mexicana.</li>
+    <li>Duración de cuando menos <strong>30 años</strong>.</li>
+    <li>Objeto social que incluya <strong>prestar todo tipo de servicios públicos de telecomunicaciones
+        y/o radiodifusión</strong> bajo los principios de participación ciudadana directa, convivencia
+        social, equidad, igualdad de género y pluralidad.</li>
+  </ul>
+
+  <h2><span class="num">§2</span>Qué se solicita</h2>
+  <p>Dos títulos que la CRT otorga <strong>en el mismo acto</strong> (no son dos trámites):</p>
+  <table>
+    <tr><th>Título</th><th>Para qué</th><th>Vigencia</th><th>Formato</th></tr>
+    <tr><td><strong>Concesión Única</strong> de Uso Social Comunitaria</td><td>Habilita a prestar el servicio</td><td>30 años</td><td>TIPO CRT-CU Uso Social Comunitaria</td></tr>
+    <tr><td><strong>Concesión de Espectro</strong> de Radiodifusión</td><td>La frecuencia FM/AM</td><td>15 años</td><td>TIPO CRT-CE Radiodifusión Uso Social Comunitaria</td></tr>
+  </table>
+  <p>Se presenta <strong>cualquier día hábil del año</strong>, en línea por la <strong>Ventanilla
+  Electrónica</strong> o en físico (Oficialía de Partes: Insurgentes Sur 1143, Col. Nochebuena,
+  Benito Juárez, CDMX).</p>
+
+  <h2><span class="num">§3</span>Los 8 requisitos</h2>
+  <ol class="req">
+    <li><span class="t">Datos generales e identidad.</span> Escritura pública de la A.C. (con los tres
+        puntos del §1), representante legal con poder para actos de administración e identificación
+        oficial, comprobante de domicilio (máximo 3 meses), RFC, correo y teléfono.</li>
+    <li><span class="t">Modalidad de uso.</span> Marcar "Uso Social Comunitaria" en el formato.</li>
+    <li><span class="t">Características del proyecto.</span> Descripción breve, relación de equipos
+        (antena, transmisor, línea de transmisión, consola) con especificaciones, y la
+        <strong>justificación del uso</strong>: el vínculo con la comunidad — cartas de apoyo,
+        reconocimientos, testimonios de la labor social.</li>
+    <li><span class="t">Capacidad técnica.</span> Manifestación bajo protesta de que la organización o
+        sus asesores tienen experiencia o capacitación — <strong>vale la experiencia práctica aunque no
+        haya diplomas</strong>. Se puede acreditar con convenios, o pedir asistencia técnica gratuita a
+        la propia CRT.</li>
+    <li><span class="t">Igualdad de género.</span> Las medidas que se implementarán en la programación
+        y en la operación.</li>
+    <li><span class="t">Programa inicial de cobertura.</span> Lista de localidades donde se
+        transmitirá (localidad, municipio, estado).</li>
+    <li><span class="t">Vínculos.</span> No tener concesiones comerciales de radio, y declarar si algún
+        asociado tiene parentesco (hasta 4º grado) o vínculos económicos con concesionarios comerciales.</li>
+    <li><span class="t">Veracidad.</span> Manifestación bajo protesta de que todo lo presentado es verídico.</li>
+  </ol>
+  <div class="ojo"><strong>Lo que ya NO piden</strong> (eliminado en 2026): capacidad económica,
+  administrativa, jurídica y financiera. Esa era la barrera histórica.</div>
+
+  <h2><span class="num">§4</span>Plazos y costos</h2>
+  <ul>
+    <li>Revisión de la solicitud: <strong>10 días</strong>; si falta algo, dan <strong>30 días</strong>
+        para subsanar (ampliables 30 más, por única vez).</li>
+    <li>Resolución: Concesión Única ~40 días de análisis + 15 de resolución; la de espectro, hasta
+        <strong>90 días</strong>.</li>
+    <li>Costo del trámite: <span class="zero">$0</span> — exento de derechos por ley.</li>
+    <li>El costo real del proyecto: el notario para la A.C. y el equipo transmisor.</li>
+  </ul>
+
+  <h2><span class="num">§5</span>Ayuda gratuita de la CRT</h2>
+  <ul>
+    <li>Asistencia técnica antes y durante el trámite: <strong>asistenciatecnica@crt.gob.mx</strong></li>
+    <li>Atención general: atencion.ciudadana@crt.gob.mx · Tel. 55 5015 4000</li>
+    <li>Portales: <a href="https://www.gob.mx/crt">gob.mx/crt</a> · <a href="https://portal.crt.gob.mx">portal.crt.gob.mx</a></li>
+  </ul>
+
+  <h2><span class="num">§6</span>La ruta para Radio Aztlán</h2>
+  <ul>
+    <li><strong>Hoy:</strong> seguir creciendo por internet (sin trámite) y <em>documentar la labor</em>:
+        audiencia, programas, cartas de apoyo — eso alimenta los requisitos 3 y 4 el día de mañana.</li>
+    <li><strong>Cuando madure:</strong> constituir la A.C. con el objeto social correcto.</li>
+    <li><strong>Antes de solicitar:</strong> escribir a asistenciatecnica@crt.gob.mx para que orienten
+        sobre frecuencias disponibles en Aguascalientes.</li>
+    <li><strong>Después:</strong> presentar los dos formatos por Ventanilla Electrónica.</li>
+  </ul>
+
+  <footer><span>Radio Aztlán · Desde México</span><span>Lineamientos CRT · DOF 2026</span></footer>
+</div>
+</body>
+</html>
